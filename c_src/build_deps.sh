@@ -53,9 +53,9 @@ case "$1" in
         fi
         cd libcutil
         if [ ! -d build ]; then
-            mkdir build
+            (mkdir build && cd build && cmake ..)
         fi
-        (cd build && cmake .. && $MAKE)
+        (cd build && $MAKE)
 
         ;;
 esac
