@@ -135,7 +135,7 @@ handle_call({get, Key}, _From, #state{handler    = Handler,
                                     {function, "handle_call/3"},
                                     {line, ?LINE}, {body, Cause}]),
             {reply, {error, Cause}, State}
-        end;
+    end;
 
 handle_call({put, Key, Val}, _From, #state{handler    = Handler,
                                            stats_puts = Puts} = State) ->
