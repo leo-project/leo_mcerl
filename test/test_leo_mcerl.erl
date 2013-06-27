@@ -37,7 +37,7 @@
 -ifdef(EUNIT).
 
 simple_test() ->
-    {ok, C} = leo_mcerl:start(1024*1024),
+    {ok, C} = leo_mcerl:start(16*1024*1024),
     K = <<"key">>,
     V = <<"value">>,
     Len   = byte_size(K) + byte_size(V),
@@ -48,7 +48,7 @@ simple_test() ->
     leo_mcerl:stop(C).
 
 put_plural_objects_test() ->
-    {ok, C} = leo_mcerl:start(1024*1024),
+    {ok, C} = leo_mcerl:start(16*1024*1024),
     Keys = ["A","B","C","D","E","F",
             "G","H","I","J","K","L",
             "M","N","O","P","Q","R",
@@ -70,7 +70,7 @@ put_plural_objects_test() ->
     leo_mcerl:stop(C).
 
 put_term_key_test() ->
-    {ok, C} = leo_mcerl:start(1024*1024),
+    {ok, C} = leo_mcerl:start(16*1024*1024),
     K = term_to_binary({1234567890, "server/erlang"}),
     V = <<"LEOFS">>,
     Len = byte_size(K) + byte_size(V),
@@ -83,7 +83,7 @@ put_term_key_test() ->
     leo_mcerl:stop(C).
 
 put_including_null_key_test() ->
-    {ok, C} = leo_mcerl:start(1024*1024),
+    {ok, C} = leo_mcerl:start(16*1024*1024),
     H = <<"abcdefghijklmnopqrstuvwxyz">>,
     T = <<0:64>>,
     K = <<H/binary,T/binary>>,
@@ -98,7 +98,7 @@ put_including_null_key_test() ->
     leo_mcerl:stop(C).
 
 put_get_and_remove_test() ->
-    {ok, C} = leo_mcerl:start(1024*1024),
+    {ok, C} = leo_mcerl:start(16*1024*1024),
     K = <<"key">>,
     V = <<"value">>,
 
@@ -111,7 +111,7 @@ put_get_and_remove_test() ->
     leo_mcerl:stop(C).
 
 put_with_lru_eject_test() ->
-    {ok, C} = leo_mcerl:start(1024*1024),
+    {ok, C} = leo_mcerl:start(16*1024*1024),
     V = <<"value">>,
     lists:foldl(fun(_, Str) ->
                         Mod = list_to_binary(succ(Str)),
@@ -124,7 +124,7 @@ put_with_lru_eject_test() ->
     leo_mcerl:stop(C).
 
 what_goes_in_must_come_out_test() ->
-    {ok, C} = leo_mcerl:start(1024*1024),
+    {ok, C} = leo_mcerl:start(16*1024*1024),
     K = <<"key">>,
 
     leo_mcerl:put(C, K, list_to_binary([<<"val1">>, <<"val2">>])),
@@ -132,7 +132,7 @@ what_goes_in_must_come_out_test() ->
     leo_mcerl:stop(C).
 
 big_stuff_that_goes_in_must_come_out_test() ->
-    {ok, C} = leo_mcerl:start(1024*1024),
+    {ok, C} = leo_mcerl:start(16*1024*1024),
     K = <<"key">>,
     V1 = <<0:262144>>,
     V2 = <<1:262144>>,
@@ -143,7 +143,7 @@ big_stuff_that_goes_in_must_come_out_test() ->
     leo_mcerl:stop(C).
 
 put_one_thing_in_no_list_big_test() ->
-    {ok, C} = leo_mcerl:start(1024*1024),
+    {ok, C} = leo_mcerl:start(16*1024*1024),
     K = <<"key">>,
     V = <<0:524288>>,
 
@@ -152,7 +152,7 @@ put_one_thing_in_no_list_big_test() ->
     leo_mcerl:stop(C).
 
 put_one_thing_in_no_list_small_test() ->
-    {ok, C} = leo_mcerl:start(1024*1024),
+    {ok, C} = leo_mcerl:start(16*1024*1024),
     K = <<"key">>,
     V = <<1:8>>,
     leo_mcerl:put(C, K, V),
@@ -160,7 +160,7 @@ put_one_thing_in_no_list_small_test() ->
     leo_mcerl:stop(C).
 
 remove_nonexistant_test() ->
-    {ok, C} = leo_mcerl:start(1024*1024),
+    {ok, C} = leo_mcerl:start(16*1024*1024),
     K = <<"key">>,
 
     leo_mcerl:delete(C, K),
@@ -168,9 +168,9 @@ remove_nonexistant_test() ->
     leo_mcerl:stop(C).
 
 put_bigger_thing_than_1MB_test() ->
-    {ok, C} = leo_mcerl:start(1024 * 1024 * 5),
+    {ok, C} = leo_mcerl:start(16*1024*1024),
     K = <<"key">>,
-    V = crypto:rand_bytes(1024 * 1024 * 2),
+    V = crypto:rand_bytes(1024 * 1024 * 10),
     Ret = leo_mcerl:put(C, K, V),
     ?assertEqual({error, 'out of memory'}, Ret),
     ?assertEqual(not_found, leo_mcerl:get(C, K)),
@@ -180,7 +180,7 @@ put_bigger_thing_than_1MB_test() ->
 
 double_get_test() ->
     %% outputv modifies the iovec with a skipsize.  That's fucking rad
-    {ok, C} = leo_mcerl:start(1024*1024),
+    {ok, C} = leo_mcerl:start(16*1024*1024),
     K = <<"aczup">>,
     V = list_to_binary([<<131,108,0,0,0,1,104,2,107,0,9,60,48,46,52,55,50,46,48,
                           62,99,49,46,50,51,54,53,51,49,53,54,49,57,53,57,56,55,
@@ -202,7 +202,7 @@ server_test() ->
     V = <<"VALUE-1">>,
 
     ProcId = 'test_leo_mcerl',
-    leo_mcerl_server:start_link(ProcId, (1024 * 1024)),
+    leo_mcerl_server:start_link(ProcId, (16 * 1024 * 1024)),
     ok = leo_mcerl_server:put(ProcId, K, V),
     {ok, V}  = leo_mcerl_server:get(ProcId, K),
     {ok, 1}  = leo_mcerl_server:items(ProcId),
