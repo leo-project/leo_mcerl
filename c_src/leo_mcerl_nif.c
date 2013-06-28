@@ -46,7 +46,7 @@ static ERL_NIF_TERM leo_mcerl_nif_init(ErlNifEnv* env, int argc, const ERL_NIF_T
 
   pert = (ErlNifResourceType*)enif_priv_data(env);
   cache = enif_alloc_resource(pert, sizeof(lcu_cache));
-  lcu_cache_init(cache, auto_eject_on, max_size, 2, 256, 1024 * 1024);
+  lcu_cache_init(cache, auto_eject_on, max_size, 2, 256, 1024 * 1024 * 8);
 
   term = enif_make_resource(env, cache);
   enif_release_resource(cache);
