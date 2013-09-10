@@ -172,7 +172,7 @@ put_bigger_thing_than_1MB_test() ->
     K = <<"key">>,
     V = crypto:rand_bytes(1024 * 1024 * 10),
     Ret = leo_mcerl:put(C, K, V),
-    ?assertEqual({error, 'out of memory'}, Ret),
+    ?assertEqual({error, 'out_of_memory'}, Ret),
     ?assertEqual(not_found, leo_mcerl:get(C, K)),
     {ok, 0}  = leo_mcerl:items(C),
     {ok, 0} = leo_mcerl:size(C),
