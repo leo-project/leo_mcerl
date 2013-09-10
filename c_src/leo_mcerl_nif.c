@@ -256,7 +256,7 @@ static int onload(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info) {
   *priv_data = (void*)pert;
   atom_ok = enif_make_atom(env, "ok");
   atom_error = enif_make_atom(env, "error");
-  atom_oom = enif_make_atom(env, "out of memory");
+  atom_oom = enif_make_atom(env, "out_of_memory");
   atom_not_found = enif_make_atom(env, "not_found");
   return 0;
 }

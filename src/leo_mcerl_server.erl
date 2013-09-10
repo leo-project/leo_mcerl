@@ -149,10 +149,15 @@ handle_call({put, Key, Val}, _From, #state{handler    = Handler,
                                     {line, ?LINE}, {body, Cause}]),
             {reply, {error, Cause}, State};
         {error, Cause} ->
-            error_logger:error_msg("~p,~p,~p,~p~n",
-                                   [{module, ?MODULE_STRING},
-                                    {function, "handle_call/3"},
-                                    {line, ?LINE}, {body, Cause}]),
+            case Cause of
+                'out_of_memory' ->
+                    void;
+                _ ->
+                    error_logger:error_msg("~p,~p,~p,~p~n",
+                                           [{module, ?MODULE_STRING},
+                                            {function, "handle_call/3"},
+                                            {line, ?LINE}, {body, Cause}])
+            end,
             {reply, {error, Cause}, State}
     end;
 
