@@ -3,7 +3,6 @@ deps
 ebin
 c_src/libcutil
 priv
-rebar
 *.swp
 *.o
 *.beam
