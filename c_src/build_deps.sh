@@ -40,7 +40,7 @@ case "$1" in
 
     get-deps)
         if [ ! -d libcutil ]; then
-            git clone git://github.com/leo-project/libcutil.git
+            git clone https://github.com/leo-project/libcutil.git
             (cd libcutil && git checkout $LIBCUTIL_VSN)
         fi
         ;;
@@ -48,7 +48,7 @@ case "$1" in
     *)
 
         if [ ! -d libcutil ]; then
-            git clone git://github.com/leo-project/libcutil.git
+            git clone https://github.com/leo-project/libcutil.git
             (cd libcutil && git checkout $LIBCUTIL_VSN)
         fi
         cd libcutil
