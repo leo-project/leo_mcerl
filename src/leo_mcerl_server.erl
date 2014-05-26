@@ -52,6 +52,8 @@
 %%--------------------------------------------------------------------
 %% Function: {ok,Pid} | ignore | {error, Error}
 %% Description: Starts the server.
+-spec(start_link(atom(), non_neg_integer()) ->
+             {ok, pid()} | ignore | {error, any()}).
 start_link(Id, CacheSize) ->
     gen_server:start_link({local, Id}, ?MODULE, [CacheSize], []).
 
@@ -112,7 +114,7 @@ size(Id) ->
 init([CacheSize]) ->
     {ok, Handler} = leo_mcerl:start(CacheSize),
     {ok, #state{total_cache_size = CacheSize,
-                handler           = Handler}}.
+                handler          = Handler}}.
 
 handle_call({get, Key}, _From, #state{handler    = Handler,
                                       stats_gets = Gets,
