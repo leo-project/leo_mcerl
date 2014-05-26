@@ -1,0 +1,3 @@
+## Dialyzer - ignore warnings
+##
+leo_mcerl_server.erl:114: Function init/1 has no local return

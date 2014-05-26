@@ -7,3 +7,6 @@ priv
 *.o
 *.beam
 *.plt
+.leo_mcerl_dialyzer_plt
+leo_mcerl.dot
+leo_mcerl.png
