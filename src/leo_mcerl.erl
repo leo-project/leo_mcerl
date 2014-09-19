@@ -51,54 +51,58 @@ init() ->
 
 %% @doc Launch leo_mcerl
 %%
--spec(start(integer()) ->
-             {ok, any()}).
+-spec(start(Size) ->
+             {ok, any()} when Size::integer()).
 start(_Size) ->
     exit(nif_library_not_loaded).
 
 
 %% @doc Insert an object into the leo_mcerl
 %%
--spec(put(any(), binary(), binary()) ->
-             ok | {error, any()}).
+-spec(put(Res, Key, Value) ->
+             ok | {error, any()} when Res::any(),
+                                      Key::binary(),
+                                      Value::binary()).
 put(_Res, _Key, _Value) ->
     exit(nif_library_not_loaded).
 
 
 %% @doc Retrieve an object from the leo_mcerl
 %%
--spec(get(any(), binary()) ->
-             {ok, binary()} | not_found | {error, any()}).
+-spec(get(Res, Key) ->
+             {ok, binary()} | not_found | {error, any()} when Res::any(),
+                                                              Key::binary()).
 get(_Res, _Key) ->
     exit(nif_library_not_loaded).
 
 %% @doc Delete an object from the leo_mcerl
 %%
--spec(delete(any(), binary()) ->
-             ok | {error, any()}).
+-spec(delete(Res, Key) ->
+             ok | {error, any()} when Res::any(),
+                                      Key::binary()).
 delete(_Res, _Key) ->
     exit(nif_library_not_loaded).
 
 
 %% @doc Retrieve size of cached objects
 %%
--spec(size(any()) ->
-             {ok, integer()} | {error, any()}).
+-spec(size(Res) ->
+             {ok, integer()} | {error, any()} when Res::any()).
 size(_Res) ->
     exit(nif_library_not_loaded).
 
 %% @doc Retrieve total of cached objects
 %%
--spec(items(any()) ->
-             {ok, integer()} | {error, any()}).
+-spec(items(Res) ->
+             {ok, integer()} | {error, any()} when Res::any()).
 items(_Res) ->
     exit(nif_library_not_loaded).
 
 
 %% @doc Halt the leo_mcerl
 %%
--spec(stop(any()) ->
-             ok | {error, any()}).
+-spec(stop(Res) ->
+             ok | {error, any()} when Res::any()).
 stop(_Res) ->
     exit(nif_library_not_loaded).
 
