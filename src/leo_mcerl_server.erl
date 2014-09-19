@@ -52,58 +52,65 @@
 %%--------------------------------------------------------------------
 %% Function: {ok,Pid} | ignore | {error, Error}
 %% Description: Starts the server.
--spec(start_link(atom(), non_neg_integer()) ->
-             {ok, pid()} | ignore | {error, any()}).
+-spec(start_link(Id, CacheSize) ->
+             {ok, pid()} | ignore | {error, any()} when Id::atom(),
+                                                        CacheSize::non_neg_integer()).
 start_link(Id, CacheSize) ->
     gen_server:start_link({local, Id}, ?MODULE, [CacheSize], []).
 
 
 %% Function: -> ok
 %% Description: Manually stops the server.
-stop(Pid) ->
-    gen_server:cast(Pid, stop).
+-spec(stop(Id) ->
+             ok when Id::atom()).
+stop(Id) ->
+    gen_server:cast(Id, stop).
 
 
 %% @doc Retrieve a value associated with a specified key
 %%
--spec(get(atom(), binary()) ->
-             undefined | binary() | {error, any()}).
+-spec(get(Id, Key) ->
+             undefined | binary() | {error, any()} when Id::atom(),
+                                                        Key::binary()).
 get(Id, Key) ->
     gen_server:call(Id, {get, Key}).
 
 
 %% @doc Insert a key-value pair into the leo_mcerl
 %%
--spec(put(atom(), binary(), binary()) ->
-             ok | {error, any()}).
+-spec(put(Id, Key, Value) ->
+             ok | {error, any()} when Id::atom(),
+                                      Key::binary(),
+                                      Value::binary()).
 put(Id, Key, Value) ->
     gen_server:call(Id, {put, Key, Value}).
 
 
 %% @doc Remove a key-value pair by a specified key into the leo_mcerl
--spec(delete(atom(), binary()) ->
-             ok | {error, any()}).
+-spec(delete(Id, Key) ->
+             ok | {error, any()} when Id::atom(),
+                                      Key::binary()).
 delete(Id, Key) ->
     gen_server:call(Id, {delete, Key}).
 
 
 %% @doc Return server's state
--spec(stats(atom()) ->
-             any()).
+-spec(stats(Id) ->
+             any() when Id::atom()).
 stats(Id) ->
     gen_server:call(Id, {stats}).
 
 
 %% @doc Return server's items
--spec(items(atom()) ->
-             any()).
+-spec(items(Id) ->
+             any() when Id::atom()).
 items(Id) ->
     gen_server:call(Id, {items}).
 
 
 %% @doc Return server's summary of cache size
--spec(size(atom()) ->
-             any()).
+-spec(size(Id) ->
+             any() when Id::atom()).
 size(Id) ->
     gen_server:call(Id, {size}).
 
