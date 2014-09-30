@@ -50,8 +50,7 @@
 %%--------------------------------------------------------------------
 %% API
 %%--------------------------------------------------------------------
-%% Function: {ok,Pid} | ignore | {error, Error}
-%% Description: Starts the server.
+%% @doc Start the server
 -spec(start_link(Id, CacheSize) ->
              {ok, pid()} | ignore | {error, any()} when Id::atom(),
                                                         CacheSize::non_neg_integer()).
@@ -59,8 +58,7 @@ start_link(Id, CacheSize) ->
     gen_server:start_link({local, Id}, ?MODULE, [CacheSize], []).
 
 
-%% Function: -> ok
-%% Description: Manually stops the server.
+%% @doc Stop the server
 -spec(stop(Id) ->
              ok when Id::atom()).
 stop(Id) ->
@@ -68,7 +66,6 @@ stop(Id) ->
 
 
 %% @doc Retrieve a value associated with a specified key
-%%
 -spec(get(Id, Key) ->
              undefined | binary() | {error, any()} when Id::atom(),
                                                         Key::binary()).
@@ -77,7 +74,6 @@ get(Id, Key) ->
 
 
 %% @doc Insert a key-value pair into the leo_mcerl
-%%
 -spec(put(Id, Key, Value) ->
              ok | {error, any()} when Id::atom(),
                                       Key::binary(),
@@ -224,20 +220,8 @@ handle_cast(_Msg, State) ->
 handle_info(_Info, State) ->
     {noreply, State}.
 
-
-%% ----------------------------------------------------------------------------------------------------------
-%% Function: terminate(Reason, State) -> void()
-%% Description: This function is called by a gen_server when it is about to terminate. When it returns,
-%% the gen_server terminates with Reason. The return value is ignored.
-%% ----------------------------------------------------------------------------------------------------------
 terminate(_Reason, _State) ->
     terminated.
 
-
-%% ----------------------------------------------------------------------------------------------------------
-%% Function: code_change(OldVsn, State, Extra) -> {ok, NewState}
-%% Description: Convert process state when code is changed.
-%% ----------------------------------------------------------------------------------------------------------
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
-
