@@ -50,60 +50,63 @@
 %%--------------------------------------------------------------------
 %% API
 %%--------------------------------------------------------------------
-%% Function: {ok,Pid} | ignore | {error, Error}
-%% Description: Starts the server.
--spec(start_link(atom(), non_neg_integer()) ->
-             {ok, pid()} | ignore | {error, any()}).
+%% @doc Start the server
+-spec(start_link(Id, CacheSize) ->
+             {ok, pid()} | ignore | {error, any()} when Id::atom(),
+                                                        CacheSize::non_neg_integer()).
 start_link(Id, CacheSize) ->
     gen_server:start_link({local, Id}, ?MODULE, [CacheSize], []).
 
 
-%% Function: -> ok
-%% Description: Manually stops the server.
-stop(Pid) ->
-    gen_server:cast(Pid, stop).
+%% @doc Stop the server
+-spec(stop(Id) ->
+             ok when Id::atom()).
+stop(Id) ->
+    gen_server:cast(Id, stop).
 
 
 %% @doc Retrieve a value associated with a specified key
-%%
--spec(get(atom(), binary()) ->
-             undefined | binary() | {error, any()}).
+-spec(get(Id, Key) ->
+             undefined | binary() | {error, any()} when Id::atom(),
+                                                        Key::binary()).
 get(Id, Key) ->
     gen_server:call(Id, {get, Key}).
 
 
 %% @doc Insert a key-value pair into the leo_mcerl
-%%
--spec(put(atom(), binary(), binary()) ->
-             ok | {error, any()}).
+-spec(put(Id, Key, Value) ->
+             ok | {error, any()} when Id::atom(),
+                                      Key::binary(),
+                                      Value::binary()).
 put(Id, Key, Value) ->
     gen_server:call(Id, {put, Key, Value}).
 
 
 %% @doc Remove a key-value pair by a specified key into the leo_mcerl
--spec(delete(atom(), binary()) ->
-             ok | {error, any()}).
+-spec(delete(Id, Key) ->
+             ok | {error, any()} when Id::atom(),
+                                      Key::binary()).
 delete(Id, Key) ->
     gen_server:call(Id, {delete, Key}).
 
 
 %% @doc Return server's state
--spec(stats(atom()) ->
-             any()).
+-spec(stats(Id) ->
+             any() when Id::atom()).
 stats(Id) ->
     gen_server:call(Id, {stats}).
 
 
 %% @doc Return server's items
--spec(items(atom()) ->
-             any()).
+-spec(items(Id) ->
+             any() when Id::atom()).
 items(Id) ->
     gen_server:call(Id, {items}).
 
 
 %% @doc Return server's summary of cache size
--spec(size(atom()) ->
-             any()).
+-spec(size(Id) ->
+             any() when Id::atom()).
 size(Id) ->
     gen_server:call(Id, {size}).
 
@@ -217,20 +220,8 @@ handle_cast(_Msg, State) ->
 handle_info(_Info, State) ->
     {noreply, State}.
 
-
-%% ----------------------------------------------------------------------------------------------------------
-%% Function: terminate(Reason, State) -> void()
-%% Description: This function is called by a gen_server when it is about to terminate. When it returns,
-%% the gen_server terminates with Reason. The return value is ignored.
-%% ----------------------------------------------------------------------------------------------------------
 terminate(_Reason, _State) ->
     terminated.
 
-
-%% ----------------------------------------------------------------------------------------------------------
-%% Function: code_change(OldVsn, State, Extra) -> {ok, NewState}
-%% Description: Convert process state when code is changed.
-%% ----------------------------------------------------------------------------------------------------------
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
-
