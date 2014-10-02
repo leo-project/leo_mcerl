@@ -20,7 +20,8 @@
 %%
 %% ---------------------------------------------------------------------
 %% Leo Memory Cache
-%% @doc
+%% @doc The memory cache server
+%% @reference https://github.com/leo-project/leo_mcerl/blob/master/src/leo_mcerl_server.erl
 %% @end
 %%======================================================================
 -module(leo_mcerl_server).
