@@ -11,3 +11,4 @@ priv
 leo_mcerl.dot
 leo_mcerl.png
 .rebar/
+doc/

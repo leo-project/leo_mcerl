@@ -36,7 +36,7 @@
 %%--------------------------------------------------------------------
 -ifdef(EUNIT).
 
-simple_test() ->
+simple_1_test() ->
     {ok, C} = leo_mcerl:start(16*1024*1024),
     K = <<"key">>,
     V = <<"value">>,
@@ -46,6 +46,15 @@ simple_test() ->
     ?assertEqual({ok, V},   leo_mcerl:get(C, <<"key">>)),
     ?assertEqual({ok, Len}, leo_mcerl:size(C)),
     leo_mcerl:stop(C).
+
+simple_2_test() ->
+    application:start(leo_mcerl),
+    {ok,_Pid} = leo_mcerl_sup:start_child(worker_1, 1073741824),
+
+    ok = leo_mcerl_server:put(worker_1, <<"KEY_1">>, <<"VALUE_1">>),
+    {ok, <<"VALUE_1">>} = leo_mcerl_server:get(worker_1, <<"KEY_1">>),
+    ok.
+
 
 put_plural_objects_test() ->
     {ok, C} = leo_mcerl:start(16*1024*1024),

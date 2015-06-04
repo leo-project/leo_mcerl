@@ -20,7 +20,8 @@
 %%
 %% ---------------------------------------------------------------------
 %% Leo Memory Cache
-%% @doc
+%% @doc The mcerl API
+%% @reference https://github.com/leo-project/leo_mcerl/blob/master/src/leo_mcerl.erl
 %% @end
 %%======================================================================
 -module(leo_mcerl).
@@ -105,4 +106,3 @@ items(_Res) ->
              ok | {error, any()} when Res::any()).
 stop(_Res) ->
     exit(nif_library_not_loaded).
-
