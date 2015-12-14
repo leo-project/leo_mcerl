@@ -68,8 +68,11 @@ stop(Id) ->
 
 %% @doc Retrieve a value associated with a specified key
 -spec(get(Id, Key) ->
-             undefined | binary() | {error, any()} when Id::atom(),
-                                                        Key::binary()).
+             {ok, Bin} | not_found | {error, any()} when Id::atom(),
+                                                         Key::binary(),
+                                                         Bin::binary()).
+get(_,<<>>) ->
+    not_found;
 get(Id, Key) ->
     gen_server:call(Id, {get, Key}).
 
@@ -79,6 +82,8 @@ get(Id, Key) ->
              ok | {error, any()} when Id::atom(),
                                       Key::binary(),
                                       Value::binary()).
+put(_,<<>>,_) ->
+    ok;
 put(Id, Key, Value) ->
     gen_server:call(Id, {put, Key, Value}).
 
@@ -87,6 +92,8 @@ put(Id, Key, Value) ->
 -spec(delete(Id, Key) ->
              ok | {error, any()} when Id::atom(),
                                       Key::binary()).
+delete(_,<<>>) ->
+    ok;
 delete(Id, Key) ->
     gen_server:call(Id, {delete, Key}).
 
