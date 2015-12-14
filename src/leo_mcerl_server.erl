@@ -126,6 +126,8 @@ init([CacheSize]) ->
     {ok, #state{total_cache_size = CacheSize,
                 handler = Handler}}.
 
+handle_call({get,<<>>}, _From, #state{stats_gets = Gets} = State) ->
+    {reply, not_found, State#state{stats_gets = Gets + 1}};
 handle_call({get, Key}, _From, #state{handler = Handler,
                                       stats_gets = Gets,
                                       stats_hits = Hits} = State) ->
@@ -149,6 +151,8 @@ handle_call({get, Key}, _From, #state{handler = Handler,
             {reply, {error, Cause}, State}
     end;
 
+handle_call({put,<<>>,_Val}, _From, #state{stats_puts = Puts} = State) ->
+    {reply, ok, State#state{stats_puts = Puts + 1}};
 handle_call({put, Key, Val}, _From, #state{handler = Handler,
                                            stats_puts = Puts} = State) ->
     case catch leo_mcerl:put(Handler, Key, Val) of
@@ -173,6 +177,8 @@ handle_call({put, Key, Val}, _From, #state{handler = Handler,
             {reply, {error, Cause}, State}
     end;
 
+handle_call({delete,<<>>}, _From, State = #state{stats_dels = Dels}) ->
+    {reply, ok, State#state{stats_dels = Dels + 1}};
 handle_call({delete, Key}, _From, State = #state{handler = Handler,
                                                  stats_dels = Dels}) ->
     case catch leo_mcerl:delete(Handler, Key) of
