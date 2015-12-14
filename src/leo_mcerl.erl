@@ -25,7 +25,6 @@
 %% @end
 %%======================================================================
 -module(leo_mcerl).
--author('Yoshiyuki Kanno').
 
 -export([start/1, put/3, get/2, delete/2, size/1, items/1, stop/1]).
 -on_load(init/0).

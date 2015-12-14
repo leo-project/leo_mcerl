@@ -25,7 +25,6 @@
 %% @end
 %%======================================================================
 -module(leo_mcerl_server).
--author("Yosuke Hara").
 
 -behaviour(gen_server).
 
@@ -40,12 +39,12 @@
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2,
          terminate/2, code_change/3]).
 
--record(state, {handler,
-                total_cache_size = 0 :: integer(),
-                stats_gets	     = 0 :: integer(),
-                stats_puts	     = 0 :: integer(),
-                stats_dels	     = 0 :: integer(),
-                stats_hits       = 0 :: integer()
+-record(state, {handler :: pid(),
+                total_cache_size = 0 :: non_neg_integer(),
+                stats_gets = 0 :: non_neg_integer(),
+                stats_puts = 0 :: non_neg_integer(),
+                stats_dels = 0 :: non_neg_integer(),
+                stats_hits = 0 :: non_neg_integer()
                }).
 
 %%--------------------------------------------------------------------
@@ -102,21 +101,21 @@ delete(Id, Key) ->
 -spec(stats(Id) ->
              any() when Id::atom()).
 stats(Id) ->
-    gen_server:call(Id, {stats}).
+    gen_server:call(Id, stats).
 
 
 %% @doc Return server's items
 -spec(items(Id) ->
              any() when Id::atom()).
 items(Id) ->
-    gen_server:call(Id, {items}).
+    gen_server:call(Id, items).
 
 
 %% @doc Return server's summary of cache size
 -spec(size(Id) ->
              any() when Id::atom()).
 size(Id) ->
-    gen_server:call(Id, {size}).
+    gen_server:call(Id, size).
 
 
 %%====================================================================
@@ -125,9 +124,9 @@ size(Id) ->
 init([CacheSize]) ->
     {ok, Handler} = leo_mcerl:start(CacheSize),
     {ok, #state{total_cache_size = CacheSize,
-                handler          = Handler}}.
+                handler = Handler}}.
 
-handle_call({get, Key}, _From, #state{handler    = Handler,
+handle_call({get, Key}, _From, #state{handler = Handler,
                                       stats_gets = Gets,
                                       stats_hits = Hits} = State) ->
     case catch leo_mcerl:get(Handler, Key) of
@@ -150,7 +149,7 @@ handle_call({get, Key}, _From, #state{handler    = Handler,
             {reply, {error, Cause}, State}
     end;
 
-handle_call({put, Key, Val}, _From, #state{handler    = Handler,
+handle_call({put, Key, Val}, _From, #state{handler = Handler,
                                            stats_puts = Puts} = State) ->
     case catch leo_mcerl:put(Handler, Key, Val) of
         ok ->
@@ -174,7 +173,7 @@ handle_call({put, Key, Val}, _From, #state{handler    = Handler,
             {reply, {error, Cause}, State}
     end;
 
-handle_call({delete, Key}, _From, State = #state{handler    = Handler,
+handle_call({delete, Key}, _From, State = #state{handler = Handler,
                                                  stats_dels = Dels}) ->
     case catch leo_mcerl:delete(Handler, Key) of
         ok ->
@@ -193,27 +192,27 @@ handle_call({delete, Key}, _From, State = #state{handler    = Handler,
             {reply, {error, Cause}, State}
     end;
 
-handle_call({stats}, _From, State = #state{handler    = Handler,
-                                           stats_hits = Hits,
-                                           stats_gets = Gets,
-                                           stats_puts = Puts,
-                                           stats_dels = Dels}) ->
+handle_call(stats, _From, State = #state{handler = Handler,
+                                         stats_hits = Hits,
+                                         stats_gets = Gets,
+                                         stats_puts = Puts,
+                                         stats_dels = Dels}) ->
     {ok, Items} = leo_mcerl:items(Handler),
     {ok, Size}  = leo_mcerl:size(Handler),
-    Stats = #cache_stats{hits        = Hits,
-                         gets        = Gets,
-                         puts        = Puts,
-                         dels        = Dels,
-                         records     = Items,
+    Stats = #cache_stats{hits = Hits,
+                         gets = Gets,
+                         puts = Puts,
+                         dels = Dels,
+                         records = Items,
                          cached_size = Size},
     {reply, {ok, Stats}, State};
 
-handle_call({items}, _From, #state{handler = Handler} = State) ->
+handle_call(items, _From, #state{handler = Handler} = State) ->
     Reply = leo_mcerl:items(Handler),
     {reply, Reply, State};
 
-handle_call({size}, _From, #state{handler = Handler} = State) ->
-    Reply  = leo_mcerl:size(Handler),
+handle_call(size, _From, #state{handler = Handler} = State) ->
+    Reply = leo_mcerl:size(Handler),
     {reply, Reply, State};
 
 handle_call(_Request, _From, State) ->
