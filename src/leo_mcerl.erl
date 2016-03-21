@@ -25,7 +25,6 @@
 %% @end
 %%======================================================================
 -module(leo_mcerl).
--author('Yoshiyuki Kanno').
 
 -export([start/1, put/3, get/2, delete/2, size/1, items/1, stop/1]).
 -on_load(init/0).
@@ -64,7 +63,9 @@ start(_Size) ->
              ok | {error, any()} when Res::any(),
                                       Key::binary(),
                                       Value::binary()).
-put(_Res, _Key, _Value) ->
+put(_Res, <<>>,_) ->
+    {error, badarg};
+put(_Res,_Key,_Value) ->
     exit(nif_library_not_loaded).
 
 
@@ -73,7 +74,9 @@ put(_Res, _Key, _Value) ->
 -spec(get(Res, Key) ->
              {ok, binary()} | not_found | {error, any()} when Res::any(),
                                                               Key::binary()).
-get(_Res, _Key) ->
+get(_Res, <<>>) ->
+    not_found;
+get(_Res,_Key) ->
     exit(nif_library_not_loaded).
 
 %% @doc Delete an object from the leo_mcerl
@@ -81,7 +84,9 @@ get(_Res, _Key) ->
 -spec(delete(Res, Key) ->
              ok | {error, any()} when Res::any(),
                                       Key::binary()).
-delete(_Res, _Key) ->
+delete(_Res, <<>>) ->
+    ok;
+delete(_Res,_Key) ->
     exit(nif_library_not_loaded).
 
 

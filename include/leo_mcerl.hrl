@@ -18,21 +18,14 @@
 %% specific language governing permissions and limitations
 %% under the License.
 %%
-%% ---------------------------------------------------------------------
-%% Leo Memory Cache
-%% @doc
-%% @end
 %%======================================================================
--author("Yosuke Hara").
-
-
 %% records.
 -record(cache_stats, {
-    gets        = 0 :: integer(),
-    puts        = 0 :: integer(),
-    dels        = 0 :: integer(),
-    hits        = 0 :: integer(),
-    records     = 0 :: integer(),
-    cached_size = 0 :: integer()
+    gets = 0 :: non_neg_integer(),
+    puts = 0 :: non_neg_integer(),
+    dels = 0 :: non_neg_integer(),
+    hits = 0 :: non_neg_integer(),
+    records = 0 :: non_neg_integer(),
+    cached_size = 0 :: non_neg_integer()
 }).
 
