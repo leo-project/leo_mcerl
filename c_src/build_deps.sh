@@ -8,7 +8,7 @@ if [ `uname -s` = 'SunOS' -a "${POSIX_SHELL}" != "true" ]; then
 fi
 unset POSIX_SHELL # clear it so if we invoke other scripts, they run as ksh as well
 
-LIBCUTIL_VSN="0.4.3"   # libcutil master Jan 23, 2014
+LIBCUTIL_VSN="0.4.4"   # libcutil master May 28, 2016
 
 set -e
 
