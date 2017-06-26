@@ -179,7 +179,7 @@ remove_nonexistant_test() ->
 put_bigger_thing_than_1MB_test() ->
     {ok, C} = leo_mcerl:start(16*1024*1024),
     K = <<"key">>,
-    V = crypto:rand_bytes(1024 * 1024 * 10),
+    V = crypto:strong_rand_bytes(1024 * 1024 * 10),
     Ret = leo_mcerl:put(C, K, V),
     ?assertEqual({error, 'out_of_memory'}, Ret),
     ?assertEqual(not_found, leo_mcerl:get(C, K)),
