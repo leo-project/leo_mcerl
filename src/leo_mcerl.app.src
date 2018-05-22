@@ -3,7 +3,7 @@
 %%
 %% Leo Memory Cache Library for Erlang(leo_mcerl)
 %%
-%% Copyright (c) 2012-2017 Rakuten, Inc.
+%% Copyright (c) 2012-2018 Rakuten, Inc.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -24,7 +24,7 @@
  [
   {description, "Memory Caching library for Erlang"},
   {mod, {leo_mcerl_app, []}},
-  {vsn, "0.6.7"},
+  {vsn, "0.6.8"},
   {modules, [leo_mcerl, leo_mcerl_app, leo_mcerl_sup, leo_mcerl_server]},
   {registered, []},
   {applications, [kernel, stdlib]}
