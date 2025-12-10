@@ -12,3 +12,5 @@ leo_mcerl.dot
 leo_mcerl.png
 .rebar/
 doc/
+_build/
+c_src/leo_mcerl_nif.d

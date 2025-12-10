@@ -6,7 +6,9 @@ before_install:
   - sudo apt-get update
   - sudo apt-get -y install check cmake
 otp_release:
-  - 19.3
-  - 20.3
-  - 21.3
-  - 22.2
+  - 22.3
+  - 23.3
+  - 24.3
+  - 25.3
+  - 26.2
+  - 27.2

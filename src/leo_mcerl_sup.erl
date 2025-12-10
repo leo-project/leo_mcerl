@@ -77,10 +77,10 @@ start_child(ProcId, CacheCapacity) ->
         {ok, Pid} ->
             {ok, Pid};
         {error, Cause} ->
-            error_logger:error_msg("~p,~p,~p,~p~n",
-                                   [{module, ?MODULE_STRING},
-                                    {function, "start_child/2"},
-                                    {line, ?LINE}, {body, Cause}]),
+            logger:error("~p,~p,~p,~p~n",
+                         [{module, ?MODULE_STRING},
+                          {function, "start_child/2"},
+                          {line, ?LINE}, {body, Cause}]),
             {error, Cause}
     end.
 
