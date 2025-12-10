@@ -25,7 +25,7 @@
  [
   {description, "Memory Caching library for Erlang"},
   {mod, {leo_mcerl_app, []}},
-  {vsn, "0.6.11"},
+  {vsn, "1.0.0"},
   {modules, [leo_mcerl, leo_mcerl_app, leo_mcerl_sup, leo_mcerl_server]},
   {registered, []},
   {applications, [kernel, stdlib]}
